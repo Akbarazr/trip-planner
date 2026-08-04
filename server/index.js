@@ -6,7 +6,7 @@ import { pathToFileURL } from 'url';
 import storage from './storage.js';
 import { authenticate } from './auth.js';
 import {
-  geocode, geocodeNear, haversine, route, nearbyPlaces, nearbyPlacesTerms,
+  geocode, geocodeNear, haversine, route, nearbyPlaces, nearbyPlacesTerms, highlyRatedPlaces,
   sampleAlongGeometry, pointAtFraction,
 } from './maps.js';
 import { chat } from './ai.js';
@@ -258,13 +258,34 @@ app.delete('/api/poll-options/:optionId', wrap(async (req, res) => {
 
 // ---------- preference-based itinerary planning ----------
 const ITINERARY_PREFERENCES = {
-  sightseeing: { label: 'Sightseeing', kind: 'attraction', terms: ['tourist attraction', 'landmark', 'monument'] },
-  nature: { label: 'Nature', kind: 'attraction', terms: ['park', 'nature reserve', 'garden'] },
-  museums: { label: 'Museums', kind: 'attraction', terms: ['museum', 'gallery'] },
-  food: { label: 'Food', kind: 'food', terms: ['restaurant'] },
-  family: { label: 'Family', kind: 'attraction', terms: ['zoo', 'aquarium', 'theme park'] },
-  shopping: { label: 'Shopping', kind: 'attraction', terms: ['market', 'shopping mall'] },
-  history: { label: 'History', kind: 'attraction', terms: ['historic site', 'monument', 'museum'] },
+  sightseeing: {
+    label: 'Famous sight',
+    googleTypes: ['tourist_attraction', 'cultural_landmark', 'monument'],
+  },
+  nature: {
+    label: 'Nature and parks',
+    googleTypes: ['national_park', 'park', 'garden'],
+  },
+  museums: {
+    label: 'Museums and art',
+    googleTypes: ['museum', 'art_gallery'],
+  },
+  food: {
+    label: 'Popular restaurant',
+    googleTypes: ['restaurant'],
+  },
+  family: {
+    label: 'Family activity',
+    googleTypes: ['zoo', 'aquarium', 'amusement_park'],
+  },
+  shopping: {
+    label: 'Popular shopping',
+    googleTypes: ['shopping_mall', 'department_store'],
+  },
+  history: {
+    label: 'History and landmarks',
+    googleTypes: ['historical_place', 'museum', 'monument'],
+  },
 };
 const ITINERARY_PACE = { relaxed: 1, balanced: 2, full: 3 };
 
@@ -273,6 +294,7 @@ app.post('/api/itinerary/suggest', wrap(async (req, res) => {
     origin_lat, origin_lon, dest_lat, dest_lon,
     travel_mode = 'car', days = 1, start_date = null,
     preferences = ['sightseeing'], pace = 'balanced', seed_itinerary: seedItinerary = [],
+    exclude_places: excludePlaces = [],
   } = req.body || {};
   const coordinates = [origin_lat, origin_lon, dest_lat, dest_lon].map(Number);
   if (coordinates.some((value) => !Number.isFinite(value))) {
@@ -302,6 +324,7 @@ app.post('/api/itinerary/suggest', wrap(async (req, res) => {
 
   const seen = new Set();
   const itinerary = [];
+  let searchFailed = false;
   for (let dayIndex = 0; dayIndex < dayCount; dayIndex += 1) {
     const fraction = dayCount === 1 ? 1 : (dayIndex + 1) / dayCount;
     const anchor = routeGeometry
@@ -311,15 +334,19 @@ app.post('/api/itinerary/suggest', wrap(async (req, res) => {
     const config = ITINERARY_PREFERENCES[preference];
     let found = [];
     try {
-      const result = await nearbyPlacesTerms(
+      found = await highlyRatedPlaces(
         anchor.lat,
         anchor.lon,
-        config.terms,
-        config.kind,
-        travel_mode === 'car' && fraction < 1 ? 30000 : 18000,
+        config.googleTypes,
+        {
+          radius: travel_mode === 'car' && fraction < 1 ? 50000 : 30000,
+          excludeNames: Array.isArray(excludePlaces) ? excludePlaces : [],
+        },
       );
-      found = result.places || [];
-    } catch { /* template seed suggestions can fill the day */ }
+    } catch (error) {
+      if (error.status === 503) throw error;
+      searchFailed = true;
+    }
 
     const stops = [];
     for (const place of found) {
@@ -332,6 +359,10 @@ app.post('/api/itinerary/suggest', wrap(async (req, res) => {
         lon: place.lon,
         preference,
         details: place.details || config.label,
+        rating: place.rating,
+        review_count: place.reviewCount,
+        google_maps_url: place.googleMapsUri,
+        source: 'google_places',
       });
       if (stops.length >= stopsPerDay) break;
     }
@@ -359,7 +390,9 @@ app.post('/api/itinerary/suggest', wrap(async (req, res) => {
     itinerary,
     preferences: selectedPreferences,
     pace,
-    message: 'Review these suggestions, remove anything you do not want, or add your own stops.',
+    message: searchFailed
+      ? 'Some Google place searches were temporarily unavailable. Every displayed stop still meets the 4.0+ and 1,000-review requirement.'
+      : 'Showing non-religious public places rated 4.0+ on Google with at least 1,000 reviews.',
   });
 }));
 

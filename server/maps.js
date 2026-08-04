@@ -2,6 +2,12 @@
 // Overpass (nearby places). We add a User-Agent as these services request it.
 
 const UA = 'TripPlanner/1.0 (free demo app)';
+const RELIGIOUS_PLACE_TYPES = new Set([
+  'buddhist_temple', 'church', 'hindu_temple', 'mosque', 'shinto_shrine',
+  'synagogue', 'place_of_worship',
+]);
+const RELIGIOUS_NAME_PATTERN =
+  /\b(abbey|basilica|cathedral|chapel|church|gurdwara|masjid|monastery|mosque|shrine|synagogue|temple)\b/i;
 
 async function jsonFetch(url, opts = {}) {
   const res = await fetch(url, {
@@ -10,6 +16,90 @@ async function jsonFetch(url, opts = {}) {
   });
   if (!res.ok) throw new Error(`Upstream ${res.status} for ${url}`);
   return res.json();
+}
+
+function isReligiousPlace(place) {
+  const types = Array.isArray(place?.types) ? place.types : [];
+  return types.some((type) => RELIGIOUS_PLACE_TYPES.has(type))
+    || RELIGIOUS_PLACE_TYPES.has(place?.primaryType)
+    || RELIGIOUS_NAME_PATTERN.test(place?.displayName?.text || '');
+}
+
+export async function highlyRatedPlaces(
+  lat,
+  lon,
+  includedTypes,
+  { radius = 30000, excludeNames = [] } = {},
+) {
+  const apiKey = process.env.GOOGLE_PLACES_API_KEY || process.env.GOOGLE_MAPS_API_KEY;
+  if (!apiKey) {
+    const error = new Error('Google Places is not configured for verified itinerary suggestions');
+    error.status = 503;
+    throw error;
+  }
+  const response = await fetch('https://places.googleapis.com/v1/places:searchNearby', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Goog-Api-Key': apiKey,
+      'X-Goog-FieldMask': [
+        'places.id',
+        'places.displayName',
+        'places.formattedAddress',
+        'places.location',
+        'places.primaryType',
+        'places.types',
+        'places.rating',
+        'places.userRatingCount',
+        'places.googleMapsUri',
+      ].join(','),
+    },
+    body: JSON.stringify({
+      includedTypes,
+      maxResultCount: 20,
+      rankPreference: 'POPULARITY',
+      locationRestriction: {
+        circle: {
+          center: { latitude: lat, longitude: lon },
+          radius: Math.min(50000, Math.max(1000, radius)),
+        },
+      },
+    }),
+    signal: AbortSignal.timeout(12000),
+  });
+  if (!response.ok) {
+    const error = new Error(`Google Places search failed (${response.status})`);
+    error.status = 502;
+    throw error;
+  }
+  const excluded = new Set(excludeNames.map((name) => normalizePlaceName(name)).filter(Boolean));
+  const data = await response.json();
+  return (data.places || [])
+    .filter((place) => (
+      Number(place.rating) >= 4
+      && Number(place.userRatingCount) >= 1000
+      && !isReligiousPlace(place)
+      && !excluded.has(normalizePlaceName(place.displayName?.text))
+    ))
+    .sort((a, b) => (
+      Number(b.userRatingCount) - Number(a.userRatingCount)
+      || Number(b.rating) - Number(a.rating)
+    ))
+    .map((place) => ({
+      id: place.id,
+      name: place.displayName?.text || place.formattedAddress,
+      lat: place.location?.latitude,
+      lon: place.location?.longitude,
+      rating: Number(place.rating),
+      reviewCount: Number(place.userRatingCount),
+      googleMapsUri: place.googleMapsUri,
+      details: `${Number(place.rating).toFixed(1)} stars · ${Number(place.userRatingCount).toLocaleString('en-US')} Google reviews${place.formattedAddress ? ` · ${place.formattedAddress}` : ''}`,
+    }))
+    .filter((place) => place.name && Number.isFinite(place.lat) && Number.isFinite(place.lon));
+}
+
+function normalizePlaceName(value) {
+  return String(value || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, ' ');
 }
 
 // Turn a place name into coordinates. Results are ordered by Nominatim's

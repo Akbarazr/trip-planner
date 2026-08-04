@@ -190,6 +190,12 @@ export default function TripForm({ onCreated, onCancel, initialTemplate = null }
     }
     setPlanning(true);
     try {
+      const excludePlaces = itineraryPrepared
+        ? draftItinerary.flatMap((day) => day.stops.map((stop) => stop.name))
+        : [];
+      const retainedStops = itineraryPrepared
+        ? draftItinerary.map((day) => day.stops.filter((stop) => stop.source !== 'google_places'))
+        : [];
       const result = await api.suggestItinerary({
         origin_lat: o.lat,
         origin_lon: o.lon,
@@ -201,8 +207,12 @@ export default function TripForm({ onCreated, onCancel, initialTemplate = null }
         preferences,
         pace,
         seed_itinerary: templateItinerary || [],
+        exclude_places: excludePlaces,
       });
-      setDraftItinerary(result.itinerary);
+      setDraftItinerary(result.itinerary.map((day, dayIndex) => ({
+        ...day,
+        stops: [...day.stops, ...(retainedStops[dayIndex] || [])].slice(0, 6),
+      })));
       setItineraryPrepared(true);
       setNotice(result.message);
       return true;
@@ -357,7 +367,9 @@ export default function TripForm({ onCreated, onCancel, initialTemplate = null }
         <div className="preference-builder">
           <span className="section-kicker">Personalize your itinerary</span>
           <h3>What do you enjoy?</h3>
-          <p className="muted">Wander will prepare your days with real places matching these interests.</p>
+          <p className="muted">
+            Wander uses famous non-religious public places rated at least 4.0 on Google by 1,000+ reviewers.
+          </p>
           <div className="preference-grid">
             {PREFERENCES.map((preference) => (
               <button
