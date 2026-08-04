@@ -1,0 +1,56 @@
+<svg width="1280" height="760" viewBox="0 0 1280 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1280" height="760" rx="30" fill="#F4F7FA"/>
+  <rect x="24" y="24" width="1232" height="70" rx="18" fill="white"/>
+  <circle cx="62" cy="59" r="17" fill="#0F766E"/>
+  <path d="M55 62C64 61 68 55 70 48C61 48 55 53 55 62Z" fill="white"/>
+  <text x="91" y="67" fill="#172033" font-family="Arial, sans-serif" font-size="25" font-weight="700">Wander</text>
+  <rect x="1085" y="43" width="139" height="34" rx="17" fill="#E6F5F3"/>
+  <text x="1118" y="65" fill="#0B5F59" font-family="Arial, sans-serif" font-size="13" font-weight="700">Share trip</text>
+
+  <rect x="24" y="118" width="1232" height="112" rx="20" fill="white"/>
+  <text x="54" y="158" fill="#172033" font-family="Arial, sans-serif" font-size="27" font-weight="700">Pacific Coast Adventure</text>
+  <text x="54" y="188" fill="#667085" font-family="Arial, sans-serif" font-size="16">San Francisco → Los Angeles · 5 days · Car</text>
+  <rect x="54" y="199" width="126" height="13" rx="6.5" fill="#DCEFEB"/>
+  <rect x="194" y="199" width="92" height="13" rx="6.5" fill="#FCE5DF"/>
+
+  <rect x="24" y="254" width="478" height="482" rx="20" fill="white"/>
+  <text x="52" y="294" fill="#172033" font-family="Arial, sans-serif" font-size="21" font-weight="700">Day-by-day itinerary</text>
+  <rect x="52" y="316" width="422" height="112" rx="15" fill="#F7FAFA" stroke="#E4E7EC"/>
+  <circle cx="79" cy="346" r="14" fill="#0F766E"/>
+  <text x="104" y="351" fill="#172033" font-family="Arial, sans-serif" font-size="16" font-weight="700">Day 1 · Monterey</text>
+  <rect x="76" y="372" width="10" height="10" rx="5" fill="#FF6B4A"/>
+  <text x="104" y="382" fill="#667085" font-family="Arial, sans-serif" font-size="14">17-Mile Drive scenic stop</text>
+  <rect x="76" y="397" width="10" height="10" rx="5" fill="#FF6B4A"/>
+  <text x="104" y="407" fill="#667085" font-family="Arial, sans-serif" font-size="14">Old Fisherman's Wharf</text>
+
+  <rect x="52" y="444" width="422" height="112" rx="15" fill="#F7FAFA" stroke="#E4E7EC"/>
+  <circle cx="79" cy="474" r="14" fill="#0F766E"/>
+  <text x="104" y="479" fill="#172033" font-family="Arial, sans-serif" font-size="16" font-weight="700">Day 2 · Big Sur</text>
+  <rect x="76" y="500" width="10" height="10" rx="5" fill="#FF6B4A"/>
+  <text x="104" y="510" fill="#667085" font-family="Arial, sans-serif" font-size="14">Bixby Creek Bridge</text>
+  <rect x="76" y="525" width="10" height="10" rx="5" fill="#FF6B4A"/>
+  <text x="104" y="535" fill="#667085" font-family="Arial, sans-serif" font-size="14">McWay Falls overlook</text>
+
+  <text x="52" y="602" fill="#172033" font-family="Arial, sans-serif" font-size="19" font-weight="700">Trip highlights</text>
+  <rect x="52" y="620" width="202" height="76" rx="13" fill="#EAF6F4"/>
+  <text x="72" y="648" fill="#0B5F59" font-family="Arial, sans-serif" font-size="14" font-weight="700">6 must-see places</text>
+  <text x="72" y="674" fill="#667085" font-family="Arial, sans-serif" font-size="12">Organized across 5 days</text>
+  <rect x="270" y="620" width="204" height="76" rx="13" fill="#FFF3EF"/>
+  <text x="290" y="648" fill="#8A3023" font-family="Arial, sans-serif" font-size="14" font-weight="700">Route saved offline</text>
+  <text x="290" y="674" fill="#667085" font-family="Arial, sans-serif" font-size="12">Ready when service drops</text>
+
+  <rect x="526" y="254" width="730" height="482" rx="20" fill="#DDECE7"/>
+  <path d="M526 514C655 439 727 447 806 389C895 324 1006 344 1256 273V736H526V514Z" fill="#C7DED6"/>
+  <path d="M553 666C678 598 690 495 790 462C902 425 954 524 1073 447C1137 406 1176 349 1230 320" stroke="white" stroke-width="12" stroke-linecap="round"/>
+  <path d="M553 666C678 598 690 495 790 462C902 425 954 524 1073 447C1137 406 1176 349 1230 320" stroke="#0F766E" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="553" cy="666" r="17" fill="#0F766E" stroke="white" stroke-width="6"/>
+  <circle cx="790" cy="462" r="14" fill="#FF6B4A" stroke="white" stroke-width="5"/>
+  <circle cx="1073" cy="447" r="14" fill="#FF6B4A" stroke="white" stroke-width="5"/>
+  <circle cx="1230" cy="320" r="17" fill="#172033" stroke="white" stroke-width="6"/>
+  <rect x="558" y="278" width="216" height="76" rx="16" fill="white" fill-opacity=".96"/>
+  <text x="580" y="309" fill="#667085" font-family="Arial, sans-serif" font-size="12">ROUTE</text>
+  <text x="580" y="335" fill="#172033" font-family="Arial, sans-serif" font-size="18" font-weight="700">456 mi · 9h 20m</text>
+  <rect x="1000" y="642" width="224" height="64" rx="15" fill="white" fill-opacity=".96"/>
+  <circle cx="1030" cy="674" r="11" fill="#0F766E"/>
+  <text x="1052" y="679" fill="#172033" font-family="Arial, sans-serif" font-size="14" font-weight="700">Available offline</text>
+</svg>

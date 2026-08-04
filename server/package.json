@@ -1,0 +1,24 @@
+{
+  "name": "trip-planner-server",
+  "version": "1.0.0",
+  "description": "Trip Planner API — trips, maps, and AI assistant",
+  "type": "module",
+  "main": "functions.js",
+  "engines": {
+    "node": "20"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "check": "node --check index.js && node --check functions.js && node --check auth.js && node --check db.js && node --check storage.js && node --check storage/sqlite.js && node --check storage/firestore.js",
+    "deploy": "firebase deploy --only functions:api"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.3.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "firebase-admin": "^13.10.0",
+    "firebase-functions": "^6.6.0"
+  }
+}

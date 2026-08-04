@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="340" viewBox="0 0 1200 340" preserveAspectRatio="xMidYMax slice">
+  <defs>
+    <linearGradient id="hill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7bd94a"/>
+      <stop offset="1" stop-color="#3fae2a"/>
+    </linearGradient>
+    <linearGradient id="hill2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4fc36a"/>
+      <stop offset="1" stop-color="#1f9e4d"/>
+    </linearGradient>
+  </defs>
+
+  <!-- rolling hills -->
+  <path d="M0 250 Q150 200 320 240 T640 235 T980 245 T1200 232 L1200 340 L0 340 Z" fill="url(#hill2)" opacity="0.9"/>
+  <path d="M0 285 Q220 250 460 280 T900 278 T1200 285 L1200 340 L0 340 Z" fill="url(#hill)"/>
+
+  <!-- pine trees (vibrant) -->
+  <g>
+    <g transform="translate(90,150)">
+      <rect x="-9" y="120" width="18" height="46" rx="4" fill="#8a5a2b"/>
+      <polygon points="0,0 -55,90 55,90" fill="#12b34a"/>
+      <polygon points="0,40 -48,130 48,130" fill="#0f9e41"/>
+      <polygon points="0,80 -40,165 40,165" fill="#0c8a38"/>
+    </g>
+    <g transform="translate(300,175)">
+      <rect x="-8" y="95" width="16" height="40" rx="4" fill="#8a5a2b"/>
+      <polygon points="0,0 -46,75 46,75" fill="#2fd35f"/>
+      <polygon points="0,34 -40,108 40,108" fill="#20b84c"/>
+      <polygon points="0,66 -33,138 33,138" fill="#159c3c"/>
+    </g>
+    <g transform="translate(520,140)">
+      <rect x="-10" y="130" width="20" height="50" rx="4" fill="#7a4d24"/>
+      <polygon points="0,0 -60,98 60,98" fill="#15be4f"/>
+      <polygon points="0,44 -52,142 52,142" fill="#0fa542"/>
+      <polygon points="0,86 -44,180 44,180" fill="#0a8c36"/>
+    </g>
+    <g transform="translate(740,178)">
+      <rect x="-8" y="92" width="16" height="40" rx="4" fill="#8a5a2b"/>
+      <polygon points="0,0 -44,72 44,72" fill="#38d968"/>
+      <polygon points="0,32 -38,104 38,104" fill="#24bd52"/>
+      <polygon points="0,62 -31,132 31,132" fill="#17a13f"/>
+    </g>
+    <g transform="translate(960,150)">
+      <rect x="-9" y="120" width="18" height="46" rx="4" fill="#8a5a2b"/>
+      <polygon points="0,0 -55,90 55,90" fill="#12b34a"/>
+      <polygon points="0,40 -48,130 48,130" fill="#0f9e41"/>
+      <polygon points="0,80 -40,165 40,165" fill="#0c8a38"/>
+    </g>
+    <g transform="translate(1150,175)">
+      <rect x="-8" y="95" width="16" height="40" rx="4" fill="#8a5a2b"/>
+      <polygon points="0,0 -46,75 46,75" fill="#2fd35f"/>
+      <polygon points="0,34 -40,108 40,108" fill="#20b84c"/>
+      <polygon points="0,66 -33,138 33,138" fill="#159c3c"/>
+    </g>
+  </g>
+
+  <!-- round leafy trees -->
+  <g>
+    <g transform="translate(195,205)">
+      <rect x="-7" y="55" width="14" height="45" rx="4" fill="#9a6636"/>
+      <circle cx="0" cy="10" r="42" fill="#4ada5f"/>
+      <circle cx="-30" cy="35" r="30" fill="#31c24c"/>
+      <circle cx="30" cy="35" r="30" fill="#3ccf55"/>
+      <circle cx="0" cy="45" r="34" fill="#28b544"/>
+    </g>
+    <g transform="translate(640,215)">
+      <rect x="-7" y="50" width="14" height="42" rx="4" fill="#9a6636"/>
+      <circle cx="0" cy="8" r="38" fill="#5ce06a"/>
+      <circle cx="-27" cy="32" r="27" fill="#37c851"/>
+      <circle cx="27" cy="32" r="27" fill="#43d15c"/>
+    </g>
+    <g transform="translate(858,208)">
+      <rect x="-7" y="55" width="14" height="45" rx="4" fill="#9a6636"/>
+      <circle cx="0" cy="10" r="42" fill="#4ada5f"/>
+      <circle cx="-30" cy="35" r="30" fill="#31c24c"/>
+      <circle cx="30" cy="35" r="30" fill="#3ccf55"/>
+      <circle cx="0" cy="45" r="34" fill="#28b544"/>
+    </g>
+    <g transform="translate(1075,215)">
+      <rect x="-7" y="50" width="14" height="42" rx="4" fill="#9a6636"/>
+      <circle cx="0" cy="8" r="38" fill="#5ce06a"/>
+      <circle cx="-27" cy="32" r="27" fill="#37c851"/>
+      <circle cx="27" cy="32" r="27" fill="#43d15c"/>
+    </g>
+    <g transform="translate(430,220)">
+      <rect x="-7" y="48" width="14" height="40" rx="4" fill="#9a6636"/>
+      <circle cx="0" cy="8" r="36" fill="#66e874"/>
+      <circle cx="-24" cy="30" r="25" fill="#3fce57"/>
+      <circle cx="24" cy="30" r="25" fill="#4bd862"/>
+    </g>
+  </g>
+</svg>
